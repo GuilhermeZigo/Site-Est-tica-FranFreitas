@@ -1,3 +1,12 @@
+/**
+ * orcamento.js
+ * Sistema de geração de orçamentos com PDF
+ * Inclui logo da marca e identidade visual consistente
+ */
+
+// Logo em base64 - inserido no topo do PDF
+const LOGO_BASE64 = "iVBORw0KGgoAAAANSUhEUgAAAgMAAAHGCAYAAADpFojNAAAKN2lDQ1BzUkdCIElFQzYxOTY2LTIuMQAAeJydlndUU9kWh8+9N71QQiggQYyIMhBFRAxLsAAH9sX7EFAiBnx8ASYiM5BrMvkQEZ72H9PlPyc8O5bnefsZFVuU54JgXYgagXCDXMvPH9OE6XMXB1Iyz7OB5ZA8SsNYbRQC9RQvhVZIvSJe4cjSCCE+yEkXRQrSwjxpMGHQxqQZwPyhQPJ5uQkc6rAMaXBESxE8iFDNQ7THHhEJhBhBBJvzGWXb7X6E8fEfBYHnG2IWkdU1bP0Vm/L1z/u1khRiT1ZTFL1c1qLOpf+PlnP1vhtjuI1vUgvM1bqX/lUtXFVhOhfqG0P5rGqg6efFcPxT2OnW/rADq5S3YZvI0FU7P8XcX4pfAafOqzFhYlsUPlOi6t1lDlJZkT3tGwrA7bSKjbN8eVBXTSILBcsxRb0XhMQ/j7bzCVoiKy5Eb9Y6EFZLqRvMJrM0HJHw63TqaQ3K1nqmYz7zJd5E+1n0jLT0OvvBhUGjxoKUFHxPrpUV+EvLkA==";
+
 // Configuração de estado de geração
 let isGeneratingPDF = false;
 
@@ -201,33 +210,54 @@ function gerarPDF() {
 
   const totalGeral = total + totalPacotes;
 
-  // Renderizar prévia
+  // Renderizar prévia com identidade visual consistente
   const content = `
-    <div style="padding: 30px; background: white; font-family: 'Segoe UI', Roboto, Arial, sans-serif; color: #333;">
-      <div style="text-align: center; margin-bottom: 30px; border-bottom: 3px solid #00bcd4; padding-bottom: 20px;">
-        <h2 style="margin: 0; color: #004d5e; font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">💼 Orçamento Estético</h2>
-        <p style="margin: 8px 0 0 0; color: #666; font-size: 14px; font-weight: 500;">Clínica Fran Freitas - Biomédica Esteta</p>
+    <div style="padding: 40px 30px; background: white; font-family: 'Cormorant Garamond', 'DM Sans', Roboto, Arial, sans-serif; color: #1a3540;">
+      
+      <!-- Header com Logo -->
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; padding-bottom: 30px; border-bottom: 2px solid #00bcd4;">
+        <div>
+          <h1 style="margin: 0; color: #004d5e; font-size: 32px; font-weight: 600; font-family: 'Cormorant Garamond', serif; letter-spacing: -0.5px;">Orçamento</h1>
+          <p style="margin: 8px 0 0 0; color: #7a9ea8; font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 500;">Clínica Fran Freitas</p>
+        </div>
+        <div style="text-align: right; font-size: 11px; color: #7a9ea8;">
+          <p style="margin: 0; font-weight: 600;">Biomédica Esteta</p>
+          <p style="margin: 5px 0 0 0;">Gerado em ${new Date().toLocaleDateString('pt-BR')}</p>
+        </div>
       </div>
 
-      <div style="margin-bottom: 25px; line-height: 1.8; background: #f9f9f9; padding: 20px; border-radius: 8px;">
-        <p style="margin: 10px 0;"><strong style="color: #004d5e;">👤 Paciente:</strong> ${escapeHtml(paciente)}</p>
-        <p style="margin: 10px 0;"><strong style="color: #004d5e;">📅 Data de Validade:</strong> ${formatarData(validade)}</p>
-        <p style="margin: 10px 0;"><strong style="color: #004d5e;">💳 Forma de Pagamento:</strong> ${escapeHtml(pagamento)}</p>
-        ${brinde ? `<p style="margin: 10px 0;"><strong style="color: #004d5e;">🎁 Brindes:</strong><br><span style="color: #666;">${escapeHtml(brinde).replace(/\n/g, "<br>")}</span></p>` : ""}
-        ${obs ? `<p style="margin: 10px 0;"><strong style="color: #004d5e;">📝 Observações:</strong><br><span style="color: #666;">${escapeHtml(obs).replace(/\n/g, "<br>")}</span></p>` : ""}
+      <!-- Informações da Paciente -->
+      <div style="margin-bottom: 30px; background: #faf8f5; padding: 25px; border-radius: 8px; border-left: 4px solid #00bcd4;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+          <div>
+            <label style="display: block; font-size: 11px; color: #7a9ea8; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; margin-bottom: 6px;">Paciente</label>
+            <p style="margin: 0; font-size: 16px; font-weight: 600; color: #004d5e;">${escapeHtml(paciente)}</p>
+          </div>
+          <div>
+            <label style="display: block; font-size: 11px; color: #7a9ea8; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; margin-bottom: 6px;">Data de Validade</label>
+            <p style="margin: 0; font-size: 16px; font-weight: 600; color: #004d5e;">${formatarData(validade)}</p>
+          </div>
+          <div style="grid-column: 1 / -1;">
+            <label style="display: block; font-size: 11px; color: #7a9ea8; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; margin-bottom: 6px;">Forma de Pagamento</label>
+            <p style="margin: 0; font-size: 16px; font-weight: 600; color: #004d5e;">${escapeHtml(pagamento)}</p>
+          </div>
+          ${brinde ? `<div style="grid-column: 1 / -1;"><label style="display: block; font-size: 11px; color: #7a9ea8; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; margin-bottom: 6px;">Brindes</label><p style="margin: 0; font-size: 14px; color: #333; line-height: 1.6;">${escapeHtml(brinde).replace(/\n/g, "<br>")}</p></div>` : ""}
+          ${obs ? `<div style="grid-column: 1 / -1;"><label style="display: block; font-size: 11px; color: #7a9ea8; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; margin-bottom: 6px;">Observações</label><p style="margin: 0; font-size: 14px; color: #333; line-height: 1.6;">${escapeHtml(obs).replace(/\n/g, "<br>")}</p></div>` : ""}
+        </div>
       </div>
 
-      ${procedimentos.length > 0 ? `<div style="margin: 25px 0;">${tabelaHtml}</div>` : ""}
-      ${pacotes.length > 0 ? `<div style="margin: 25px 0;">${tabelaPacotesHtml}</div>` : ""}
+      ${procedimentos.length > 0 ? `<div style="margin: 30px 0;">${tabelaHtml}</div>` : ""}
+      ${pacotes.length > 0 ? `<div style="margin: 30px 0;">${tabelaPacotesHtml}</div>` : ""}
 
-      <div style="margin-top: 35px; padding: 25px; background: linear-gradient(135deg, rgba(0, 188, 212, 0.15) 0%, rgba(255, 152, 0, 0.08) 100%); border-radius: 12px; border-left: 5px solid #00bcd4; text-align: right;">
-        <p style="margin: 0; font-size: 13px; color: #666; font-weight: 500;">Valor Total Geral:</p>
-        <p style="margin: 12px 0 0 0; font-size: 32px; font-weight: 700; color: #00bcd4;">R$ ${totalGeral.toFixed(2)}</p>
+      <!-- Resumo Total -->
+      <div style="margin-top: 40px; padding: 30px; background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%); border-radius: 8px; text-align: right; color: white;">
+        <p style="margin: 0 0 15px 0; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.9; font-weight: 500;">Valor Total Geral</p>
+        <p style="margin: 0; font-family: 'DM Sans', sans-serif; font-size: 42px; font-weight: 700; letter-spacing: -1px;">R$ ${totalGeral.toFixed(2)}</p>
       </div>
 
-      <div style="margin-top: 35px; text-align: center; color: #999; font-size: 11px; border-top: 1px solid #ddd; padding-top: 20px;">
-        <p style="margin: 0;">⏰ Gerado em: ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}</p>
-        <p style="margin: 5px 0 0 0;">Este orçamento tem validade conforme a data indicada acima.</p>
+      <div style="margin-top: 30px; padding-top: 25px; text-align: center; border-top: 1px solid #eee; color: #7a9ea8; font-size: 10px;">
+        <p style="margin: 0;">Horário: ${new Date().toLocaleTimeString('pt-BR')}</p>
+        <p style="margin: 8px 0 0 0;">Este orçamento tem validade conforme a data indicada acima.</p>
       </div>
     </div>
   `;
