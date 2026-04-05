@@ -214,16 +214,12 @@ function gerarPDF() {
   const content = `
     <div style="padding: 40px 30px; background: white; font-family: 'Cormorant Garamond', 'DM Sans', Roboto, Arial, sans-serif; color: #1a3540;">
       
-      <!-- Header com Logo -->
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; padding-bottom: 30px; border-bottom: 2px solid #00bcd4;">
-        <div>
-          <h1 style="margin: 0; color: #004d5e; font-size: 32px; font-weight: 600; font-family: 'Cormorant Garamond', serif; letter-spacing: -0.5px;">Orçamento</h1>
-          <p style="margin: 8px 0 0 0; color: #7a9ea8; font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 500;">Clínica Fran Freitas</p>
-        </div>
-        <div style="text-align: right; font-size: 11px; color: #7a9ea8;">
-          <p style="margin: 0; font-weight: 600;">Biomédica Esteta</p>
-          <p style="margin: 5px 0 0 0;">Gerado em ${new Date().toLocaleDateString('pt-BR')}</p>
-        </div>
+      <!-- Logo e Branding -->
+      <div style="text-align: center; margin-bottom: 35px; padding-bottom: 30px; border-bottom: 2px solid #00bcd4;">
+        <img src="data:image/png;base64,${LOGO_BASE64}" alt="Fran Freitas" style="height: 50px; width: auto; margin-bottom: 12px;">
+        <h1 style="margin: 0; color: #004d5e; font-size: 32px; font-weight: 600; font-family: 'Cormorant Garamond', serif; letter-spacing: -0.5px;">Orçamento</h1>
+        <p style="margin: 8px 0 0 0; color: #7a9ea8; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500;">Biomédica Esteta · Clínica Fran Freitas</p>
+        <p style="margin: 4px 0 0 0; color: #b0cdd4; font-size: 11px;">Gerado em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</p>
       </div>
 
       <!-- Informações da Paciente -->
