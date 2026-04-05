@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Criar Orçamento</title>
+  <link rel="stylesheet" href="../css/orcamento.css" />
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <img src="../img/logo.png" alt="Logo Fran Freitas" class="logo">
+        <span class="nav-title">Criar Orçamento</span>
+      </div>
+      <div class="nav-links-simple">
+        <a href="orcamento.html" class="nav-btn">Novo Orçamento</a>
+        <a href="../index.html" class="nav-btn" style="background: linear-gradient(135deg, #ff9800 0%, #e68900 100%);">Voltar</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h1>Criar Orçamento</h1>
+    <form id="formOrcamento">
+      <label for="paciente">Nome da Paciente</label>
+      <input type="text" id="paciente" required />
+
+      <label for="validade">Data de Validade</label>
+      <input type="date" id="validade" required />
+
+      <label for="pagamento">Forma de Pagamento</label>
+      <input type="text" id="pagamento" required />
+
+      <label for="brinde">Brindes</label>
+      <textarea id="brinde" rows="2"></textarea>
+
+      <label for="obs">Observações</label>
+      <textarea id="obs" rows="3"></textarea>
+
+      <h2>Procedimentos</h2>
+      <table id="tabelaProcedimentos">
+        <thead>
+          <tr>
+            <th>Procedimento</th>
+            <th>Sessões</th>
+            <th>Valor por Sessão (R$)</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <button type="button" onclick="adicionarProcedimento()">+ Adicionar Procedimento</button>
+
+      <h2>Pacotes Promocionais</h2>
+      <table id="tabelaPacotes">
+        <thead>
+          <tr>
+            <th>Descrição</th>
+            <th>Valor Total (R$)</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <button type="button" onclick="adicionarPacote()">+ Adicionar Pacote</button>
+
+      <button type="button" onclick="gerarPDF()" style="background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%); margin-top: 30px;">📄 Gerar Orçamento em PDF</button>
+    </form>
+
+    <div id="orcamento-preview" class="orcamento-preview" style="display: none;">
+      <div id="orcamento-content"></div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="../js/orcamento.js"></script>
+</body>
+</html>

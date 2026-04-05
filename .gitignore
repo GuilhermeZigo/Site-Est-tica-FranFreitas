@@ -1,0 +1,57 @@
+# === AMBIENTE ===
+.env
+.env.local
+.env.*.local
+config.local.json
+
+# === IDE E EDITORES ===
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+
+# === NODE.JS E GERENCIADORES ===
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# === BUILDS E OUTPUTS ===
+dist/
+build/
+out/
+
+# === LOGS ===
+*.log
+logs/
+
+# === DEPENDÊNCIAS LOCAIS ===
+vendor/
+
+# === ARQUIVOS TEMPORÁRIOS ===
+*.tmp
+*.temp
+.cache/
+temp/
+
+# === SISTEMA ===
+.DS_Store
+*.swp
+*.swo
+*~
+
+# === BACKUP ===
+*.bak
+*.backup
+*~
+
+# === IDE ESPECÍFICAS ===
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/*
+*.swp
+*.swo

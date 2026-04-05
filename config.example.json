@@ -1,0 +1,181 @@
+{
+  "clinica": {
+    "nome": "Fran Freitas",
+    "subtitulo": "Biomédica Esteta",
+    "slogan": "Transformar autoestima com responsabilidade e técnica",
+    "descricao": "Formada em Biomedicina com especialização em Biomedicina Estética, Fran Freitas é uma profissional dedicada a oferecer tratamentos personalizados com a mais alta qualidade, responsabilidade e segurança.",
+    "website": "https://seu-dominio.com.br",
+    "telefone": "+5511986532841",
+    "email": "contato@franfreitas.com.br",
+    "endereco": {
+      "rua": "Rua Nossa Senhora da Lapa",
+      "numero": "184",
+      "sala": "11",
+      "cidade": "São Paulo",
+      "estado": "SP",
+      "pais": "Brasil",
+      "cep": "01000-000",
+      "coordenadas": {
+        "lat": -23.5505,
+        "lng": -46.6333
+      }
+    }
+  },
+
+  "redes_sociais": {
+    "whatsapp": {
+      "numero": "5511986532841",
+      "url": "https://wa.me/5511986532841"
+    },
+    "instagram": {
+      "usuario": "dra_franfreitas",
+      "url": "https://www.instagram.com/dra_franfreitas/"
+    },
+    "tiktok": {
+      "usuario": "",
+      "url": ""
+    },
+    "facebook": {
+      "pagina": "",
+      "url": ""
+    }
+  },
+
+  "procedimentos": {
+    "taxa_administrativa": 0.10,
+    "desconto_maximo": 0.20,
+    "formas_pagamento": [
+      "Dinheiro",
+      "Débito",
+      "Crédito à vista",
+      "PIX"
+    ],
+    "condicoes_padrao": "À combinar",
+    "validade_orcamento_dias": 30
+  },
+
+  "design": {
+    "cores": {
+      "primaria": "#00bcd4",
+      "primaria_claro": "#4dd0e1",
+      "primaria_escuro": "#0097a7",
+      "secundaria": "#ff9800",
+      "secundaria_claro": "#ffb74d",
+      "secundaria_escuro": "#e68900",
+      "fundo_escuro": "#004d5e"
+    },
+    "tipografia": {
+      "familia": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      "tamanhos": {
+        "pequeno": "0.85rem",
+        "normal": "1rem",
+        "grande": "1.2rem",
+        "titulo": "2.2rem",
+        "hero": "4rem"
+      }
+    },
+    "efeitos": {
+      "shadow_sm": "0 2px 8px rgba(0, 0, 0, 0.08)",
+      "shadow_md": "0 4px 16px rgba(0, 0, 0, 0.12)",
+      "shadow_lg": "0 8px 24px rgba(0, 0, 0, 0.15)"
+    }
+  },
+
+  "seguranca": {
+    "autenticacao": {
+      "tipo": "localStorage",
+      "nota": "Use JWT no backend em produção",
+      "admin_email": "admin@biomedica.com.br",
+      "admin_password_hash": "SHA256_HASH_HERE"
+    },
+    "cors_permitidos": [
+      "https://seu-dominio.com.br",
+      "https://www.seu-dominio.com.br",
+      "http://localhost:8000"
+    ],
+    "ssl_obrigatorio": true
+  },
+
+  "integrracoes": {
+    "emailjs": {
+      "habilitado": false,
+      "service_id": "service_xxxxx",
+      "template_id": "template_xxxxx",
+      "public_key": "public_xxxxx"
+    },
+    "google_calendar": {
+      "habilitado": false,
+      "api_key": "AIza...",
+      "calendar_id": "seu_email@gmail.com"
+    },
+    "google_sheets": {
+      "habilitado": false,
+      "api_key": "AIza...",
+      "sheet_id": "1234567890",
+      "range": "Agendamentos!A1"
+    },
+    "analytics": {
+      "google_analytics": {
+        "habilitado": false,
+        "tracking_id": "UA-XXXXXXXXX-X"
+      },
+      "sentry": {
+        "habilitado": false,
+        "dsn": "https://xxxxx@sentry.io/xxxxx"
+      }
+    }
+  },
+
+  "apis_externas": {
+    "whatsapp_business": {
+      "habilitado": false,
+      "phone_number_id": "",
+      "access_token": "",
+      "docs": "https://developers.facebook.com/docs/whatsapp/cloud-api"
+    },
+    "twilio": {
+      "habilitado": false,
+      "account_sid": "",
+      "auth_token": "",
+      "docs": "https://www.twilio.com"
+    },
+    "stripe": {
+      "habilitado": false,
+      "publishable_key": "pk_live_...",
+      "secret_key": "sk_live_...",
+      "docs": "https://stripe.com"
+    }
+  },
+
+  "pdf": {
+    "logo_url": "https://seu-dominio.com.br/img/logo.png",
+    "rodape": "Clínica Fran Freitas - Biomédica Esteta",
+    "tamanho_pagina": "A4",
+    "margem": 10,
+    "taxa_padrao": 0.10
+  },
+
+  "desenvolvimento": {
+    "modo_debug": false,
+    "log_nivel": "info",
+    "cors_debug": false,
+    "ambiente": "development"
+  },
+
+  "deployment": {
+    "plataformas": [
+      "Vercel",
+      "Netlify",
+      "GitHub Pages"
+    ],
+    "build_comando": "echo 'No build needed for static site'",
+    "output_pasta": "./"
+  },
+
+  "seo": {
+    "titulo": "Fran Freitas - Biomédica Esteta | Procedimentos Estéticos em São Paulo",
+    "descricao": "Procedimentos estéticos com segurança e responsabilidade. Especialista em toxina botulínica, preenchimento, microagulhamento e muito mais.",
+    "palavras_chave": "biomédica, estética, procedimentos, São Paulo, toxina, preenchimento",
+    "og_image": "https://seu-dominio.com.br/img/og-image.jpg"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "name": "biomedica-esteta",
+  "version": "1.0.0",
+  "description": "Plataforma moderna para Clínica Fran Freitas - Biomédica Esteta",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server",
+    "dev": "npx live-server",
+    "build": "echo 'Static site - no build needed'",
+    "test": "echo 'Add tests later'",
+    "lint": "echo 'Add linter configuration'",
+    "deploy:vercel": "vercel",
+    "deploy:netlify": "netlify deploy --prod"
+  },
+  "keywords": [
+    "biomédica",
+    "estética",
+    "procedimentos",
+    "clínica",
+    "beleza"
+  ],
+  "author": "Fran Freitas",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seu-usuario/biomedica-esteta.git"
+  },
+  "bugs": {
+    "url": "https://github.com/seu-usuario/biomedica-esteta/issues"
+  },
+  "homepage": "https://seu-dominio.com.br",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2"
+  },
+  "optionalDependencies": {
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
