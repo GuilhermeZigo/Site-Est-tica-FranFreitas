@@ -1,11 +1,8 @@
 /**
  * orcamento.js
  * Sistema de geração de orçamentos com PDF
- * Inclui logo da marca e identidade visual consistente
+ * Inclui identidade visual consistente da marca
  */
-
-// Logo em base64 - inserido no topo do PDF
-const LOGO_BASE64 = "iVBORw0KGgoAAAANSUhEUgAAAgMAAAHGCAYAAADpFojNAAAKN2lDQ1BzUkdCIElFQzYxOTY2LTIuMQAAeJydlndUU9kWh8+9N71QQiggQYyIMhBFRAxLsAAH9sX7EFAiBnx8ASYiM5BrMvkQEZ72H9PlPyc8O5bnefsZFVuU54JgXYgagXCDXMvPH9OE6XMXB1Iyz7OB5ZA8SsNYbRQC9RQvhVZIvSJe4cjSCCE+yEkXRQrSwjxpMGHQxqQZwPyhQPJ5uQkc6rAMaXBESxE8iFDNQ7THHhEJhBhBBJvzGWXb7X6E8fEfBYHnG2IWkdU1bP0Vm/L1z/u1khRiT1ZTFL1c1qLOpf+PlnP1vhtjuI1vUgvM1bqX/lUtXFVhOhfqG0P5rGqg6efFcPxT2OnW/rADq5S3YZvI0FU7P8XcX4pfAafOqzFhYlsUPlOi6t1lDlJZkT3tGwrA7bSKjbN8eVBXTSILBcsxRb0XhMQ/j7bzCVoiKy5Eb9Y6EFZLqRvMJrM0HJHw63TqaQ3K1nqmYz7zJd5E+1n0jLT0OvvBhUGjxoKUFHxPrpUV+EvLkA==";
 
 // Configuração de estado de geração
 let isGeneratingPDF = false;
@@ -216,7 +213,6 @@ function gerarPDF() {
       
       <!-- Logo e Branding -->
       <div style="text-align: center; margin-bottom: 35px; padding-bottom: 30px; border-bottom: 2px solid #00bcd4;">
-        <img src="data:image/png;base64,${LOGO_BASE64}" alt="Fran Freitas" style="height: 50px; width: auto; margin-bottom: 12px;">
         <h1 style="margin: 0; color: #004d5e; font-size: 32px; font-weight: 600; font-family: 'Cormorant Garamond', serif; letter-spacing: -0.5px;">Orçamento</h1>
         <p style="margin: 8px 0 0 0; color: #7a9ea8; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500;">Biomédica Esteta · Clínica Fran Freitas</p>
         <p style="margin: 4px 0 0 0; color: #b0cdd4; font-size: 11px;">Gerado em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</p>
