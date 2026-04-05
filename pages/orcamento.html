@@ -3,78 +3,520 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Criar Orçamento</title>
-  <link rel="stylesheet" href="../css/orcamento.css" />
+  <title>Orçamento · Fran Freitas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal: #00bcd4;
+      --teal-light: #4dd0e1;
+      --teal-dark: #0097a7;
+      --teal-deep: #004d5e;
+      --amber: #ff9800;
+      --amber-dark: #e68900;
+      --cream: #faf8f5;
+      --fog: #f0f7fa;
+      --border: #d4e8ed;
+      --text: #1a3540;
+      --muted: #7a9ea8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250,248,245,0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .navbar {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 28px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-brand img {
+      height: 36px;
+    }
+
+    .nav-brand .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+
+    .nav-brand .brand-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--teal-deep);
+      letter-spacing: 0.01em;
+    }
+
+    .nav-brand .brand-sub {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .nav-sep {
+      width: 1px;
+      height: 28px;
+      background: var(--border);
+    }
+
+    .nav-title-chip {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal-dark);
+      background: rgba(0,188,212,0.08);
+      padding: 5px 12px;
+      border-radius: 20px;
+    }
+
+    .nav-actions { display: flex; gap: 10px; }
+
+    .btn-nav {
+      padding: 8px 18px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: transparent;
+      color: var(--teal-deep);
+    }
+
+    .btn-nav:hover { border-color: var(--teal); background: rgba(0,188,212,0.06); }
+
+    .btn-nav.accent {
+      background: var(--amber);
+      border-color: var(--amber);
+      color: #fff;
+    }
+    .btn-nav.accent:hover { background: var(--amber-dark); border-color: var(--amber-dark); }
+
+    /* ── MAIN CONTAINER ── */
+    .main-wrap {
+      max-width: 880px;
+      margin: 40px auto 80px;
+      padding: 0 24px;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SECTION BLOCKS ── */
+    .section-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 40px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .section-card + .section-card { }
+
+    .section-label {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: var(--teal-deep);
+      margin-bottom: 6px;
+      line-height: 1.1;
+    }
+
+    .page-sub {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 36px;
+    }
+
+    /* ── FORM FIELDS ── */
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .field-grid.full { grid-template-columns: 1fr; }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field.span2 { grid-column: 1 / -1; }
+
+    label {
+      font-size: 0.73rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal-deep);
+    }
+
+    input[type="text"],
+    input[type="date"],
+    textarea {
+      padding: 12px 16px;
+      background: var(--fog);
+      border: 1.5px solid transparent;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.93rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      resize: vertical;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--teal);
+      background: #fff;
+    }
+
+    input::placeholder, textarea::placeholder { color: #b0cdd4; }
+
+    /* ── TABLE ── */
+    .table-wrap {
+      margin-top: 20px;
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    thead th {
+      padding: 13px 16px;
+      background: var(--teal-deep);
+      color: rgba(255,255,255,0.9);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-align: left;
+    }
+
+    thead th:first-child { border-radius: 10px 0 0 0; }
+    thead th:last-child  { border-radius: 0 10px 0 0; }
+
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:last-child { border-bottom: none; }
+
+    tbody tr:nth-child(even) { background: var(--fog); }
+
+    tbody td {
+      padding: 10px 12px;
+      vertical-align: middle;
+    }
+
+    tbody td input, tbody td textarea {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 7px 10px;
+      width: 100%;
+      font-size: 0.88rem;
+    }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 11px 22px;
+      border-radius: 9px;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1.5px solid var(--border);
+      color: var(--teal-dark);
+    }
+    .btn-ghost:hover { border-color: var(--teal); background: rgba(0,188,212,0.06); transform: translateY(-1px); }
+
+    .btn-primary {
+      background: var(--teal-deep);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(0,77,94,0.2);
+    }
+    .btn-primary:hover { background: var(--teal-dark); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,77,94,0.25); }
+
+    .btn-success {
+      background: #27ae60;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(39,174,96,0.2);
+    }
+    .btn-success:hover { background: #219a52; transform: translateY(-1px); }
+
+    .btn-danger {
+      background: transparent;
+      border: 1px solid #ffcdd2;
+      color: #e53935;
+      padding: 6px 12px;
+      font-size: 0.78rem;
+      border-radius: 7px;
+    }
+    .btn-danger:hover { background: #ffebee; }
+
+    .actions-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── PREVIEW ── */
+    .preview-wrap {
+      display: none;
+      margin-top: 30px;
+      border: 2px solid var(--teal);
+      border-radius: 14px;
+      overflow: hidden;
+      animation: fadeUp 0.4s ease both;
+    }
+
+    #orcamento-content {
+      background: #fff;
+      padding: 40px;
+    }
+
+    #orcamento-content h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      color: var(--teal-deep);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+
+    #orcamento-content p {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      margin: 6px 0;
+    }
+
+    #orcamento-content table {
+      margin-top: 16px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      .field-grid { grid-template-columns: 1fr; }
+      .field.span2 { grid-column: 1; }
+      .section-card { padding: 24px 20px; }
+      .navbar { flex-wrap: wrap; height: auto; padding: 12px 18px; gap: 10px; }
+    }
+  </style>
 </head>
 <body>
+
   <header>
     <nav class="navbar">
-      <div style="display: flex; align-items: center; gap: 1rem;">
-        <img src="../img/logo.png" alt="Logo Fran Freitas" class="logo">
-        <span class="nav-title">Criar Orçamento</span>
+      <div class="nav-brand">
+        <img src="../img/logo.png" alt="Logo Fran Freitas">
+        <div class="brand-text">
+          <span class="brand-name">Fran Freitas</span>
+          <span class="brand-sub">Biomédica Esteta</span>
+        </div>
       </div>
-      <div class="nav-links-simple">
-        <a href="orcamento.html" class="nav-btn">Novo Orçamento</a>
-        <a href="../index.html" class="nav-btn" style="background: linear-gradient(135deg, #ff9800 0%, #e68900 100%);">Voltar</a>
+      <div class="nav-sep"></div>
+      <span class="nav-title-chip">Criar Orçamento</span>
+      <div class="nav-actions">
+        <a href="orcamento.html" class="btn-nav">Novo</a>
+        <a href="../index.html" class="btn-nav accent">Voltar</a>
       </div>
     </nav>
   </header>
 
-  <div class="container">
-    <h1>Criar Orçamento</h1>
-    <form id="formOrcamento">
-      <label for="paciente">Nome da Paciente</label>
-      <input type="text" id="paciente" required />
+  <div class="main-wrap">
 
-      <label for="validade">Data de Validade</label>
-      <input type="date" id="validade" required />
+    <!-- Header -->
+    <div style="padding: 8px 0 32px;">
+      <p class="section-label">Área Administrativa</p>
+      <h1 class="page-title">Novo Orçamento</h1>
+      <p class="page-sub">Preencha os dados abaixo para gerar o documento</p>
+    </div>
 
-      <label for="pagamento">Forma de Pagamento</label>
-      <input type="text" id="pagamento" required />
+    <!-- Dados da Paciente -->
+    <div class="section-card">
+      <p class="section-label">Dados da Paciente</p>
+      <form id="formOrcamento">
+        <div class="field-grid">
+          <div class="field span2">
+            <label for="paciente">Nome da Paciente</label>
+            <input type="text" id="paciente" placeholder="Nome completo" required />
+          </div>
+          <div class="field">
+            <label for="validade">Data de Validade</label>
+            <input type="date" id="validade" required />
+          </div>
+          <div class="field">
+            <label for="pagamento">Forma de Pagamento</label>
+            <input type="text" id="pagamento" placeholder="Ex: Cartão, PIX, Boleto" required />
+          </div>
+          <div class="field">
+            <label for="brinde">Brindes</label>
+            <textarea id="brinde" rows="2" placeholder="Brindes incluídos..."></textarea>
+          </div>
+          <div class="field">
+            <label for="obs">Observações</label>
+            <textarea id="obs" rows="2" placeholder="Informações adicionais..."></textarea>
+          </div>
+        </div>
+      </form>
+    </div>
 
-      <label for="brinde">Brindes</label>
-      <textarea id="brinde" rows="2"></textarea>
+    <!-- Procedimentos -->
+    <div class="section-card">
+      <p class="section-label">Procedimentos</p>
+      <div class="table-wrap">
+        <table id="tabelaProcedimentos">
+          <thead>
+            <tr>
+              <th>Procedimento</th>
+              <th style="width:100px">Sessões</th>
+              <th style="width:160px">Valor por Sessão (R$)</th>
+              <th style="width:80px">Ações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div style="margin-top: 16px;">
+        <button type="button" class="btn btn-ghost" onclick="adicionarProcedimento()">
+          + Adicionar Procedimento
+        </button>
+      </div>
+    </div>
 
-      <label for="obs">Observações</label>
-      <textarea id="obs" rows="3"></textarea>
+    <!-- Pacotes -->
+    <div class="section-card">
+      <p class="section-label">Pacotes Promocionais</p>
+      <div class="table-wrap">
+        <table id="tabelaPacotes">
+          <thead>
+            <tr>
+              <th>Descrição do Pacote</th>
+              <th style="width:180px">Valor Total (R$)</th>
+              <th style="width:80px">Ações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div style="margin-top: 16px;">
+        <button type="button" class="btn btn-ghost" onclick="adicionarPacote()">
+          + Adicionar Pacote
+        </button>
+      </div>
+    </div>
 
-      <h2>Procedimentos</h2>
-      <table id="tabelaProcedimentos">
-        <thead>
-          <tr>
-            <th>Procedimento</th>
-            <th>Sessões</th>
-            <th>Valor por Sessão (R$)</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <button type="button" onclick="adicionarProcedimento()">+ Adicionar Procedimento</button>
+    <!-- Generate -->
+    <div class="section-card">
+      <div class="actions-row" style="margin-top: 0; padding-top: 0; border-top: none;">
+        <button type="button" class="btn btn-success" onclick="gerarPDF()">
+          &#x2B07; Gerar Orçamento em PDF
+        </button>
+        <span style="font-size: 0.8rem; color: var(--muted);">O PDF será gerado com os dados preenchidos acima</span>
+      </div>
+    </div>
 
-      <h2>Pacotes Promocionais</h2>
-      <table id="tabelaPacotes">
-        <thead>
-          <tr>
-            <th>Descrição</th>
-            <th>Valor Total (R$)</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <button type="button" onclick="adicionarPacote()">+ Adicionar Pacote</button>
-
-      <button type="button" onclick="gerarPDF()" style="background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%); margin-top: 30px;">📄 Gerar Orçamento em PDF</button>
-    </form>
-
-    <div id="orcamento-preview" class="orcamento-preview" style="display: none;">
+    <!-- Preview -->
+    <div id="orcamento-preview" class="preview-wrap">
       <div id="orcamento-content"></div>
     </div>
-  </div>
+
+  </div><!-- .main-wrap -->
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="../js/orcamento.js"></script>
+
+  <!-- Patch: adapt old JS button classes -->
+  <script>
+    // Ensure any btn-remove classes in dynamically added rows still look styled
+    document.addEventListener('DOMNodeInserted', function() {
+      document.querySelectorAll('.btn-remove').forEach(btn => {
+        btn.classList.add('btn', 'btn-danger');
+      });
+    });
+  </script>
 </body>
 </html>

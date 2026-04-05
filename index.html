@@ -3,337 +3,1423 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Clínica Fran Freitas - Biomédica Esteta</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <title>Fran Freitas · Biomédica Esteta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    /* ─── TOKENS ───────────────────────────────────────── */
+    :root {
+      --teal:        #00bcd4;
+      --teal-light:  #4dd0e1;
+      --teal-mid:    #0097a7;
+      --teal-deep:   #004d5e;
+      --teal-ink:    #00313f;
+      --amber:       #e8960a;
+      --amber-light: #fbbf24;
+      --cream:       #faf8f5;
+      --cream-warm:  #f5f0e8;
+      --fog:         #edf6f9;
+      --border:      rgba(0,77,94,0.12);
+      --text:        #1a3540;
+      --muted:       #7a9ea8;
+      --white:       #ffffff;
+    }
+
+    /* ─── RESET ─────────────────────────────────────────── */
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; font-size:16px; }
+
+    body {
+      font-family:'DM Sans',sans-serif;
+      background:var(--cream);
+      color:var(--text);
+      overflow-x:hidden;
+    }
+
+    img { display:block; max-width:100%; }
+    a   { color:inherit; text-decoration:none; }
+
+    /* ─── UTILITY ────────────────────────────────────────── */
+    .eyebrow {
+      font-size:.7rem;
+      font-weight:500;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      color:var(--teal-mid);
+    }
+
+    .serif { font-family:'Cormorant Garamond',serif; }
+
+    /* ─── NAVBAR ─────────────────────────────────────────── */
+    .nav {
+      position:fixed;
+      top:0; left:0; right:0;
+      z-index:200;
+      padding:0 5vw;
+      height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      transition:background .3s, box-shadow .3s;
+    }
+
+    .nav.scrolled {
+      background:rgba(250,248,245,.95);
+      backdrop-filter:blur(14px);
+      box-shadow:0 1px 0 var(--border);
+    }
+
+    .nav-logo { height:38px; }
+
+    .nav-links {
+      display:flex;
+      align-items:center;
+      gap:2.2rem;
+      list-style:none;
+    }
+
+    .nav-links a {
+      font-size:.78rem;
+      font-weight:500;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--white);
+      opacity:.85;
+      transition:opacity .2s;
+    }
+
+    .nav.scrolled .nav-links a { color:var(--teal-deep); }
+    .nav-links a:hover { opacity:1; }
+
+    .nav-cta {
+      padding:9px 22px;
+      border-radius:8px;
+      background:var(--teal-deep);
+      color:var(--white) !important;
+      opacity:1 !important;
+      font-size:.75rem !important;
+      letter-spacing:.12em;
+      transition:background .2s, transform .15s !important;
+    }
+
+    .nav-cta:hover { background:var(--teal-ink) !important; transform:translateY(-1px); }
+
+    .hamburger {
+      display:none;
+      flex-direction:column;
+      gap:5px;
+      cursor:pointer;
+      padding:4px;
+    }
+
+    .hamburger span {
+      display:block;
+      width:24px;
+      height:2px;
+      background:var(--white);
+      border-radius:2px;
+      transition:background .3s;
+    }
+
+    .nav.scrolled .hamburger span { background:var(--teal-deep); }
+
+    .mobile-menu {
+      display:none;
+      position:fixed;
+      inset:0;
+      z-index:190;
+      background:var(--teal-ink);
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:2.5rem;
+    }
+
+    .mobile-menu.open { display:flex; }
+
+    .mobile-menu a {
+      font-family:'Cormorant Garamond',serif;
+      font-size:2.2rem;
+      font-weight:300;
+      color:var(--white);
+      letter-spacing:.04em;
+    }
+
+    .mobile-close {
+      position:absolute;
+      top:28px; right:28px;
+      font-size:1.6rem;
+      color:var(--white);
+      cursor:pointer;
+      background:none;
+      border:none;
+      line-height:1;
+    }
+
+    /* ─── HERO ───────────────────────────────────────────── */
+    .hero {
+      position:relative;
+      height:100svh;
+      min-height:620px;
+      display:flex;
+      align-items:center;
+      overflow:hidden;
+    }
+
+    .hero-bg {
+      position:absolute;
+      inset:0;
+      background-image:url('bg-estetica.jpg');
+      background-size:cover;
+      background-position:center 30%;
+      transform:scale(1.05);
+      transition:transform 8s ease-out;
+    }
+
+    .hero-bg.loaded { transform:scale(1); }
+
+    .hero-overlay {
+      position:absolute;
+      inset:0;
+      background:linear-gradient(
+        140deg,
+        rgba(0,49,63,.82) 0%,
+        rgba(0,77,94,.65) 50%,
+        rgba(0,131,143,.4) 100%
+      );
+    }
+
+    .hero-grain {
+      position:absolute;
+      inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+      background-size:200px;
+      opacity:.6;
+      pointer-events:none;
+    }
+
+    .hero-content {
+      position:relative;
+      z-index:2;
+      padding:0 5vw;
+      max-width:780px;
+      animation:heroIn .9s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    @keyframes heroIn {
+      from { opacity:0; transform:translateY(28px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    .hero-eyebrow {
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      font-size:.7rem;
+      font-weight:500;
+      letter-spacing:.25em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.65);
+      margin-bottom:22px;
+    }
+
+    .hero-eyebrow::before {
+      content:'';
+      display:block;
+      width:30px;
+      height:1px;
+      background:var(--teal-light);
+    }
+
+    .hero h1 {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(3.4rem,7vw,6rem);
+      font-weight:300;
+      color:var(--white);
+      line-height:1;
+      letter-spacing:-.01em;
+      margin-bottom:8px;
+    }
+
+    .hero h1 em {
+      font-style:italic;
+      font-weight:400;
+      color:var(--teal-light);
+    }
+
+    .hero-role {
+      font-size:.72rem;
+      font-weight:500;
+      letter-spacing:.28em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.5);
+      margin-bottom:30px;
+    }
+
+    .hero-desc {
+      font-size:1.05rem;
+      font-weight:300;
+      color:rgba(255,255,255,.75);
+      max-width:460px;
+      line-height:1.7;
+      margin-bottom:44px;
+    }
+
+    .hero-btns {
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+
+    .btn-hero-primary {
+      padding:14px 30px;
+      background:var(--white);
+      color:var(--teal-deep);
+      font-size:.78rem;
+      font-weight:500;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      border-radius:9px;
+      border:none;
+      cursor:pointer;
+      transition:background .2s, transform .15s, box-shadow .2s;
+      box-shadow:0 4px 20px rgba(0,0,0,.18);
+    }
+
+    .btn-hero-primary:hover { background:var(--fog); transform:translateY(-2px); box-shadow:0 8px 28px rgba(0,0,0,.22); }
+
+    .btn-hero-outline {
+      padding:14px 30px;
+      background:transparent;
+      color:var(--white);
+      font-size:.78rem;
+      font-weight:500;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      border-radius:9px;
+      border:1.5px solid rgba(255,255,255,.35);
+      cursor:pointer;
+      transition:border-color .2s, background .2s, transform .15s;
+    }
+
+    .btn-hero-outline:hover {
+      border-color:rgba(255,255,255,.7);
+      background:rgba(255,255,255,.08);
+      transform:translateY(-2px);
+    }
+
+    .hero-scroll {
+      position:absolute;
+      bottom:36px;
+      left:50%;
+      transform:translateX(-50%);
+      z-index:2;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:8px;
+      color:rgba(255,255,255,.4);
+      font-size:.65rem;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      animation:scrollBounce 2.2s ease-in-out infinite;
+    }
+
+    .hero-scroll-line {
+      width:1px;
+      height:40px;
+      background:linear-gradient(to bottom, rgba(255,255,255,.4), transparent);
+    }
+
+    @keyframes scrollBounce {
+      0%,100% { transform:translateX(-50%) translateY(0); }
+      50%      { transform:translateX(-50%) translateY(6px); }
+    }
+
+    /* ─── STATS ──────────────────────────────────────────── */
+    .stats {
+      background:var(--teal-deep);
+      padding:0;
+    }
+
+    .stats-inner {
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+    }
+
+    .stat {
+      padding:44px 32px;
+      text-align:center;
+      border-right:1px solid rgba(255,255,255,.08);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .stat:last-child { border-right:none; }
+
+    .stat-num {
+      font-family:'Cormorant Garamond',serif;
+      font-size:3rem;
+      font-weight:300;
+      color:var(--white);
+      line-height:1;
+      margin-bottom:8px;
+    }
+
+    .stat-num span { color:var(--teal-light); }
+
+    .stat-label {
+      font-size:.7rem;
+      font-weight:500;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.45);
+    }
+
+    /* ─── ABOUT ──────────────────────────────────────────── */
+    .about {
+      padding:120px 5vw;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:80px;
+      align-items:center;
+      max-width:1200px;
+      margin:0 auto;
+    }
+
+    .about-visual {
+      position:relative;
+    }
+
+    .about-img-frame {
+      aspect-ratio:4/5;
+      background:var(--fog);
+      border-radius:20px 20px 80px 20px;
+      overflow:hidden;
+      position:relative;
+    }
+
+    .about-img-frame img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .about-img-placeholder {
+      position:absolute;
+      inset:0;
+      background:linear-gradient(160deg, var(--fog) 0%, #cdeaf0 100%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .about-img-placeholder svg {
+      width:80px;
+      height:80px;
+      opacity:.25;
+    }
+
+    .about-badge {
+      position:absolute;
+      bottom:-24px;
+      right:-24px;
+      width:120px;
+      height:120px;
+      border-radius:50%;
+      background:var(--teal-deep);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 12px 30px rgba(0,77,94,.3);
+    }
+
+    .about-badge .num {
+      font-family:'Cormorant Garamond',serif;
+      font-size:2rem;
+      font-weight:300;
+      color:var(--white);
+      line-height:1;
+    }
+
+    .about-badge .lbl {
+      font-size:.55rem;
+      font-weight:500;
+      letter-spacing:.15em;
+      text-transform:uppercase;
+      color:var(--teal-light);
+      text-align:center;
+      line-height:1.3;
+      margin-top:4px;
+    }
+
+    .about-text .eyebrow { margin-bottom:14px; }
+
+    .about-text h2 {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(2rem,3.5vw,3rem);
+      font-weight:300;
+      color:var(--teal-deep);
+      line-height:1.1;
+      margin-bottom:24px;
+    }
+
+    .about-text h2 em {
+      font-style:italic;
+      font-weight:400;
+    }
+
+    .about-text p {
+      font-size:.95rem;
+      line-height:1.8;
+      color:#456070;
+      margin-bottom:16px;
+    }
+
+    .about-checks {
+      margin-top:32px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .check-item {
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-size:.88rem;
+      font-weight:500;
+      color:var(--teal-deep);
+    }
+
+    .check-dot {
+      width:20px;
+      height:20px;
+      border-radius:50%;
+      background:var(--fog);
+      border:1.5px solid var(--teal-mid);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-shrink:0;
+    }
+
+    .check-dot::after {
+      content:'';
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:var(--teal-mid);
+    }
+
+    /* ─── VANTAGENS ──────────────────────────────────────── */
+    .vantagens {
+      background:var(--teal-ink);
+      padding:100px 5vw;
+    }
+
+    .section-head {
+      text-align:center;
+      margin-bottom:64px;
+    }
+
+    .section-head .eyebrow { margin-bottom:12px; }
+
+    .section-head h2 {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(2rem,3.5vw,2.8rem);
+      font-weight:300;
+      line-height:1.1;
+    }
+
+    .section-head.light .eyebrow { color:var(--teal-light); }
+    .section-head.light h2 { color:var(--white); }
+
+    .section-head.dark .eyebrow { color:var(--teal-mid); }
+    .section-head.dark h2 { color:var(--teal-deep); }
+
+    .vantagens-grid {
+      max-width:1100px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:2px;
+    }
+
+    .vantagem {
+      padding:44px 36px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.06);
+      transition:background .3s, transform .25s;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .vantagem:hover {
+      background:rgba(255,255,255,.06);
+      transform:translateY(-4px);
+    }
+
+    .vantagem::before {
+      content:'';
+      position:absolute;
+      top:0; left:0;
+      width:3px;
+      height:0;
+      background:var(--teal-light);
+      transition:height .3s;
+    }
+
+    .vantagem:hover::before { height:100%; }
+
+    .vantagem-icon-wrap {
+      width:48px;
+      height:48px;
+      border-radius:12px;
+      background:rgba(0,188,212,.12);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin-bottom:20px;
+    }
+
+    .vantagem-icon-wrap svg {
+      width:22px;
+      height:22px;
+      stroke:var(--teal-light);
+      fill:none;
+      stroke-width:1.8;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+
+    .vantagem h3 {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.2rem;
+      font-weight:400;
+      color:var(--white);
+      margin-bottom:10px;
+    }
+
+    .vantagem p {
+      font-size:.85rem;
+      line-height:1.7;
+      color:rgba(255,255,255,.45);
+    }
+
+    /* ─── PROCEDIMENTOS ──────────────────────────────────── */
+    .procedimentos {
+      padding:100px 5vw;
+      background:var(--cream);
+    }
+
+    .filter-row {
+      display:flex;
+      justify-content:center;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-bottom:52px;
+    }
+
+    .filter-btn {
+      padding:9px 22px;
+      border-radius:30px;
+      border:1.5px solid var(--border);
+      background:transparent;
+      font-family:'DM Sans',sans-serif;
+      font-size:.75rem;
+      font-weight:500;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      color:var(--muted);
+      cursor:pointer;
+      transition:all .2s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background:var(--teal-deep);
+      border-color:var(--teal-deep);
+      color:var(--white);
+    }
+
+    .proc-grid {
+      max-width:1160px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+      gap:20px;
+    }
+
+    .proc-card {
+      background:var(--white);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:28px 24px;
+      transition:transform .25s, box-shadow .25s, border-color .25s;
+      cursor:default;
+    }
+
+    .proc-card:hover {
+      transform:translateY(-5px);
+      box-shadow:0 16px 36px rgba(0,77,94,.1);
+      border-color:rgba(0,188,212,.3);
+    }
+
+    .proc-tag {
+      display:inline-block;
+      font-size:.6rem;
+      font-weight:500;
+      letter-spacing:.15em;
+      text-transform:uppercase;
+      padding:3px 9px;
+      border-radius:20px;
+      margin-bottom:16px;
+    }
+
+    .tag-rosto            { background:#e8f7fa; color:var(--teal-mid); }
+    .tag-corpo            { background:#fff3e0; color:#b46f00; }
+    .tag-rejuvenescimento { background:#ede8f9; color:#6941c6; }
+
+    .proc-card h3 {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.15rem;
+      font-weight:400;
+      color:var(--teal-deep);
+      margin-bottom:8px;
+      line-height:1.2;
+    }
+
+    .proc-card p {
+      font-size:.82rem;
+      line-height:1.65;
+      color:var(--muted);
+    }
+
+    /* ─── CTA ────────────────────────────────────────────── */
+    .cta {
+      background:var(--teal-deep);
+      padding:100px 5vw;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .cta::before {
+      content:'';
+      position:absolute;
+      width:600px;
+      height:600px;
+      border-radius:50%;
+      background:rgba(255,255,255,.03);
+      top:-200px;
+      left:-100px;
+    }
+
+    .cta::after {
+      content:'';
+      position:absolute;
+      width:400px;
+      height:400px;
+      border-radius:50%;
+      background:rgba(255,255,255,.03);
+      bottom:-150px;
+      right:-50px;
+    }
+
+    .cta-inner { position:relative; z-index:1; }
+
+    .cta .eyebrow { color:var(--teal-light); margin-bottom:16px; }
+
+    .cta h2 {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(2rem,4vw,3.2rem);
+      font-weight:300;
+      color:var(--white);
+      line-height:1.1;
+      margin-bottom:16px;
+    }
+
+    .cta h2 em { font-style:italic; color:var(--teal-light); }
+
+    .cta p {
+      font-size:.95rem;
+      color:rgba(255,255,255,.55);
+      margin-bottom:44px;
+      max-width:460px;
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    .btn-cta-wpp {
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+      padding:16px 36px;
+      background:var(--white);
+      color:var(--teal-deep);
+      border-radius:10px;
+      font-size:.8rem;
+      font-weight:500;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      transition:background .2s, transform .15s, box-shadow .2s;
+      box-shadow:0 8px 28px rgba(0,0,0,.2);
+    }
+
+    .btn-cta-wpp:hover {
+      background:var(--fog);
+      transform:translateY(-2px);
+      box-shadow:0 12px 36px rgba(0,0,0,.25);
+    }
+
+    .btn-cta-wpp svg {
+      width:18px; height:18px;
+      fill:currentColor;
+      flex-shrink:0;
+    }
+
+    /* ─── DEPOIMENTOS ────────────────────────────────────── */
+    .testimonials {
+      padding:100px 5vw;
+      background:var(--cream-warm);
+    }
+
+    .test-grid {
+      max-width:1000px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:24px;
+    }
+
+    .test-card {
+      background:var(--white);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:36px 30px;
+      position:relative;
+      transition:transform .25s, box-shadow .25s;
+    }
+
+    .test-card:hover {
+      transform:translateY(-4px);
+      box-shadow:0 16px 36px rgba(0,77,94,.08);
+    }
+
+    .test-card::before {
+      content:'\201C';
+      font-family:'Cormorant Garamond',serif;
+      font-size:5rem;
+      color:var(--fog);
+      line-height:.8;
+      position:absolute;
+      top:20px; left:26px;
+    }
+
+    .stars {
+      display:flex;
+      gap:3px;
+      margin-bottom:16px;
+    }
+
+    .star { width:14px; height:14px; fill:var(--amber); }
+
+    .test-card blockquote {
+      font-size:.9rem;
+      line-height:1.75;
+      color:#456070;
+      margin-bottom:20px;
+      position:relative;
+      z-index:1;
+    }
+
+    .test-card cite {
+      font-style:normal;
+      font-size:.75rem;
+      font-weight:500;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--teal-mid);
+    }
+
+    /* ─── CONTATO ────────────────────────────────────────── */
+    .contato {
+      padding:100px 5vw;
+      background:var(--teal-ink);
+    }
+
+    .contato-grid {
+      max-width:900px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:1px;
+      background:rgba(255,255,255,.07);
+      border-radius:16px;
+      overflow:hidden;
+    }
+
+    .contato-item {
+      padding:48px 36px;
+      background:rgba(255,255,255,.03);
+      text-align:center;
+      transition:background .2s;
+    }
+
+    .contato-item:hover { background:rgba(255,255,255,.06); }
+
+    .contato-icon-wrap {
+      width:52px;
+      height:52px;
+      border-radius:14px;
+      background:rgba(0,188,212,.12);
+      margin:0 auto 18px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .contato-icon-wrap svg {
+      width:22px; height:22px;
+      stroke:var(--teal-light);
+      fill:none;
+      stroke-width:1.8;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+
+    .contato-item h3 {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1rem;
+      font-weight:400;
+      color:rgba(255,255,255,.6);
+      margin-bottom:10px;
+      letter-spacing:.04em;
+    }
+
+    .contato-item a {
+      font-size:.85rem;
+      font-weight:500;
+      color:var(--white);
+      transition:color .2s;
+      line-height:1.5;
+    }
+
+    .contato-item a:hover { color:var(--teal-light); }
+
+    /* ─── FOOTER ─────────────────────────────────────────── */
+    footer {
+      background:var(--teal-ink);
+      border-top:1px solid rgba(255,255,255,.06);
+      padding:28px 5vw;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:16px;
+    }
+
+    footer p {
+      font-size:.75rem;
+      color:rgba(255,255,255,.3);
+      letter-spacing:.05em;
+    }
+
+    .footer-logo { height:28px; opacity:.5; filter:brightness(0) invert(1); }
+
+    /* ─── FLOATING SOCIAL ────────────────────────────────── */
+    .socials-float {
+      position:fixed;
+      right:24px;
+      bottom:28px;
+      z-index:150;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .social-pill {
+      width:46px;
+      height:46px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 4px 16px rgba(0,0,0,.18);
+      transition:transform .2s, box-shadow .2s;
+      cursor:pointer;
+    }
+
+    .social-pill:hover { transform:translateY(-3px); box-shadow:0 8px 22px rgba(0,0,0,.24); }
+
+    .social-pill svg { width:20px; height:20px; }
+
+    .pill-wpp  { background:#25d366; }
+    .pill-insta { background:radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285aeb 90%); }
+    .pill-wpp  svg { fill:none; stroke:#fff; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+    .pill-insta svg { fill:#fff; }
+
+    /* ─── REVEAL ANIMATION ───────────────────────────────── */
+    .reveal {
+      opacity:0;
+      transform:translateY(28px);
+      transition:opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
+    }
+
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width:900px) {
+      .stats-inner { grid-template-columns:repeat(2,1fr); }
+      .stat:nth-child(2) { border-right:none; }
+      .about { grid-template-columns:1fr; gap:48px; padding:80px 5vw; }
+      .about-visual { max-width:440px; margin:0 auto; }
+      .vantagens-grid { grid-template-columns:repeat(2,1fr); }
+      .test-grid { grid-template-columns:1fr; max-width:480px; }
+      .contato-grid { grid-template-columns:1fr; }
+    }
+
+    @media (max-width:640px) {
+      .nav-links { display:none; }
+      .hamburger { display:flex; }
+      .stats-inner { grid-template-columns:1fr 1fr; }
+      .vantagens-grid { grid-template-columns:1fr; }
+      .proc-grid { grid-template-columns:1fr 1fr; }
+      footer { flex-direction:column; align-items:center; text-align:center; }
+    }
+
+    @media (max-width:420px) {
+      .proc-grid { grid-template-columns:1fr; }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <nav class="navbar">
-      <img src="img/logo.png" alt="Logo Fran Freitas" class="logo">
-      <ul class="nav-links">
-        <li><a href="#sobre">Sobre</a></li>
-        <li><a href="#procedimentos">Procedimentos</a></li>
-        <li><a href="#vantagens">Vantagens</a></li>
-        <li><a href="#contato">Contato</a></li>
-        <li><a href="pages/login.html" class="btn-login">Área Admin</a></li>
-      </ul>
-    </nav>
-  </header>
 
-  <!-- HERO SECTION COM PARALLAX -->
+  <!-- ── NAV ── -->
+  <nav class="nav" id="navbar">
+    <img src="img/logo.png" alt="Fran Freitas" class="nav-logo">
+    <ul class="nav-links">
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#procedimentos">Procedimentos</a></li>
+      <li><a href="#vantagens">Vantagens</a></li>
+      <li><a href="#contato">Contato</a></li>
+      <li><a href="pages/login.html" class="nav-cta">Área Admin</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" onclick="toggleMenu()">✕</button>
+    <a href="#sobre"          onclick="toggleMenu()">Sobre</a>
+    <a href="#procedimentos"  onclick="toggleMenu()">Procedimentos</a>
+    <a href="#vantagens"      onclick="toggleMenu()">Vantagens</a>
+    <a href="#contato"        onclick="toggleMenu()">Contato</a>
+    <a href="pages/login.html" style="font-size:1rem;letter-spacing:.12em;text-transform:uppercase;font-family:'DM Sans',sans-serif;font-weight:500;opacity:.6;">Área Admin</a>
+  </div>
+
+  <!-- ── HERO ── -->
   <section class="hero" id="home">
-    <div class="hero-parallax"></div>
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-grain"></div>
     <div class="hero-content">
-      <span class="hero-subtitle animate__animated animate__fadeInUp">Beleza com Responsabilidade</span>
-      <h1 class="animate__animated animate__fadeInDown">Fran Freitas</h1>
-      <h2 class="animate__animated animate__fadeInUp" style="animation-delay: 0.2s">Biomédica Esteta</h2>
-      <p class="animate__animated animate__fadeInUp" style="animation-delay: 0.4s">Transformar autoestima através de técnicas modernas e responsabilidade profissional</p>
-      <div class="hero-buttons animate__animated animate__fadeInUp" style="animation-delay: 0.6s">
-        <a href="#procedimentos" class="btn-primary">Conheça os Procedimentos</a>
-        <a href="#contato" class="btn-secondary">Agende uma Consulta</a>
+      <span class="hero-eyebrow">Beleza com Responsabilidade</span>
+      <h1>Fran<br><em>Freitas</em></h1>
+      <p class="hero-role">Biomédica Esteta</p>
+      <p class="hero-desc">Transformar autoestima através de técnicas modernas e responsabilidade profissional.</p>
+      <div class="hero-btns">
+        <a href="#procedimentos" class="btn-hero-primary">Conheça os Procedimentos</a>
+        <a href="#contato"       class="btn-hero-outline">Agende uma Consulta</a>
       </div>
     </div>
     <div class="hero-scroll">
+      <div class="hero-scroll-line"></div>
       <span>Scroll</span>
-      <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
-        <path d="M15 20L10 15H20L15 20Z" fill="currentColor"/>
-      </svg>
     </div>
   </section>
 
-  <!-- STATS SECTION -->
-  <section class="stats-section">
-    <div class="stats-container">
-      <div class="stat-card">
-        <div class="stat-number" data-target="500">0</div>
-        <div class="stat-label">Clientes Satisfeitos</div>
+  <!-- ── STATS ── -->
+  <section class="stats">
+    <div class="stats-inner">
+      <div class="stat reveal">
+        <div class="stat-num"><span id="c0">0</span><span style="color:var(--teal-light)">+</span></div>
+        <div class="stat-label">Clientes Satisfeitas</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-number" data-target="10">0</div>
+      <div class="stat reveal">
+        <div class="stat-num"><span id="c1">0</span></div>
         <div class="stat-label">Anos de Experiência</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-number" data-target="20">0</div>
+      <div class="stat reveal">
+        <div class="stat-num"><span id="c2">0</span><span style="color:var(--teal-light)">+</span></div>
         <div class="stat-label">Procedimentos Diferentes</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-number" data-target="100">0</div>
-        <div class="stat-label">% Satisfação</div>
+      <div class="stat reveal">
+        <div class="stat-num"><span id="c3">0</span><span style="color:var(--teal-light)">%</span></div>
+        <div class="stat-label">Índice de Satisfação</div>
       </div>
     </div>
   </section>
 
-  <!-- ABOUT SECTION -->
-  <section class="info" id="sobre">
-    <div class="about-container">
-      <div class="about-content">
-        <h2>Sobre Fran Freitas</h2>
+  <!-- ── ABOUT ── -->
+  <section id="sobre">
+    <div class="about">
+      <div class="about-visual reveal">
+        <div class="about-img-frame">
+          <div class="about-img-placeholder">
+            <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="40" cy="28" r="14" stroke="#00bcd4" stroke-width="2"/>
+              <path d="M12 70c0-15.464 12.536-28 28-28s28 12.536 28 28" stroke="#00bcd4" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="about-badge">
+          <span class="num">10</span>
+          <span class="lbl">Anos de<br>Excelência</span>
+        </div>
+      </div>
+      <div class="about-text reveal">
+        <p class="eyebrow">Sobre a Profissional</p>
+        <h2>Ciência &amp; Arte<br>em cada <em>tratamento</em></h2>
         <p>Formada em Biomedicina com especialização em Biomedicina Estética, Fran Freitas é uma profissional dedicada a oferecer tratamentos personalizados com a mais alta qualidade, responsabilidade e segurança.</p>
         <p>Com sólida experiência, combina técnicas modernas com protocolos seguros, sempre buscando a satisfação e bem-estar de cada cliente.</p>
-        <div class="about-highlights">
-          <div class="highlight-item">
-            <span class="highlight-icon">✓</span>
-            <span>Formação Continuada</span>
-          </div>
-          <div class="highlight-item">
-            <span class="highlight-icon">✓</span>
-            <span>Técnicas Avançadas</span>
-          </div>
-          <div class="highlight-item">
-            <span class="highlight-icon">✓</span>
-            <span>Segurança em Primeiro Lugar</span>
-          </div>
+        <div class="about-checks">
+          <div class="check-item"><div class="check-dot"></div>Formação Continuada em Estética Avançada</div>
+          <div class="check-item"><div class="check-dot"></div>Técnicas Minimamente Invasivas</div>
+          <div class="check-item"><div class="check-dot"></div>Segurança e Biocompatibilidade em Primeiro Lugar</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- VANTAGENS SECTION -->
-  <section class="vantagens-section" id="vantagens">
-    <h2>Por que Escolher Fran Freitas?</h2>
+  <!-- ── VANTAGENS ── -->
+  <section class="vantagens" id="vantagens">
+    <div class="section-head light reveal">
+      <p class="eyebrow">Diferenciais</p>
+      <h2>Por que escolher<br>Fran Freitas?</h2>
+    </div>
     <div class="vantagens-grid">
-      <div class="vantagem-card">
-        <div class="vantagem-icon">🎯</div>
+
+      <div class="vantagem reveal">
+        <div class="vantagem-icon-wrap">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        </div>
         <h3>Resultados Naturais</h3>
         <p>Procedimentos que realçam sua beleza natural, sem exageros ou aparência artificial.</p>
       </div>
-      <div class="vantagem-card">
-        <div class="vantagem-icon">🏥</div>
+
+      <div class="vantagem reveal">
+        <div class="vantagem-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
         <h3>Ambiente Seguro</h3>
         <p>Clínica equipada com tecnologia de ponta e rigoroso protocolo de higiene.</p>
       </div>
-      <div class="vantagem-card">
-        <div class="vantagem-icon">👥</div>
+
+      <div class="vantagem reveal">
+        <div class="vantagem-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
         <h3>Atendimento Personalizado</h3>
-        <p>Cada cliente é único. Criamos protocolos customizados para suas necessidades.</p>
+        <p>Cada cliente é única. Criamos protocolos customizados para suas necessidades.</p>
       </div>
-      <div class="vantagem-card">
-        <div class="vantagem-icon">⏱️</div>
+
+      <div class="vantagem reveal">
+        <div class="vantagem-icon-wrap">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
         <h3>Agilidade nos Resultados</h3>
         <p>Técnicas modernas que oferecem resultados visíveis rapidamente.</p>
       </div>
-      <div class="vantagem-card">
-        <div class="vantagem-icon">💬</div>
+
+      <div class="vantagem reveal">
+        <div class="vantagem-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
         <h3>Suporte Contínuo</h3>
         <p>Acompanhamento pós-procedimento e orientações para potencializar seus resultados.</p>
       </div>
-      <div class="vantagem-card">
-        <div class="vantagem-icon">✨</div>
+
+      <div class="vantagem reveal">
+        <div class="vantagem-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
         <h3>Confiança Restaurada</h3>
         <p>Mais que beleza, buscamos restaurar sua autoestima e bem-estar.</p>
       </div>
+
     </div>
   </section>
 
-  <!-- PROCEDIMENTOS SECTION EXPANDIDA -->
-  <section class="procedimentos-section" id="procedimentos">
-    <h2 class="procedimentos-title">Nossos Procedimentos</h2>
-    <div class="procedimentos-filter">
+  <!-- ── PROCEDIMENTOS ── -->
+  <section class="procedimentos" id="procedimentos">
+    <div class="section-head dark reveal">
+      <p class="eyebrow">O que oferecemos</p>
+      <h2>Nossos Procedimentos</h2>
+    </div>
+
+    <div class="filter-row reveal">
       <button class="filter-btn active" data-filter="all">Todos</button>
       <button class="filter-btn" data-filter="rosto">Rosto</button>
       <button class="filter-btn" data-filter="corpo">Corpo</button>
       <button class="filter-btn" data-filter="rejuvenescimento">Rejuvenescimento</button>
     </div>
-    <div class="procedimentos-grid">
-      <!-- ROSTO -->
-      <div class="procedimento-card" data-category="rosto">
-        <div class="card-icon">💉</div>
+
+    <div class="proc-grid">
+      <div class="proc-card reveal" data-category="rosto">
+        <span class="proc-tag tag-rosto">Rosto</span>
         <h3>Toxina Botulínica</h3>
         <p>Suaviza rugas e linhas de expressão com resultados naturais e harmoniosos.</p>
       </div>
-      <div class="procedimento-card" data-category="rosto">
-        <div class="card-icon">💋</div>
+      <div class="proc-card reveal" data-category="rosto">
+        <span class="proc-tag tag-rosto">Rosto</span>
         <h3>Preenchimento Labial</h3>
         <p>Definição e aumento dos lábios com proporção e naturalidade.</p>
       </div>
-      <div class="procedimento-card" data-category="rosto">
-        <div class="card-icon">✨</div>
+      <div class="proc-card reveal" data-category="rosto">
+        <span class="proc-tag tag-rosto">Rosto</span>
         <h3>Preenchimento Facial</h3>
         <p>Restaura volume perdido no rosto com ácido hialurônico de última geração.</p>
       </div>
-      <div class="procedimento-card" data-category="rejuvenescimento">
-        <div class="card-icon">💧</div>
+      <div class="proc-card reveal" data-category="rejuvenescimento">
+        <span class="proc-tag tag-rejuvenescimento">Rejuvenescimento</span>
         <h3>Skinbooster</h3>
-        <p>Hidratação profunda da pele com resulados de rejuvenescimento prolongado.</p>
+        <p>Hidratação profunda da pele com resultados de rejuvenescimento prolongado.</p>
       </div>
-      <div class="procedimento-card" data-category="rosto">
-        <div class="card-icon">🧴</div>
+      <div class="proc-card reveal" data-category="rosto">
+        <span class="proc-tag tag-rosto">Rosto</span>
         <h3>Peelings Químicos</h3>
-        <p>Renovação celular para manchas, cicatrizes acne e textura da pele.</p>
+        <p>Renovação celular para manchas, cicatrizes de acne e textura da pele.</p>
       </div>
-      <div class="procedimento-card" data-category="rejuvenescimento">
-        <div class="card-icon">🔄</div>
+      <div class="proc-card reveal" data-category="rejuvenescimento">
+        <span class="proc-tag tag-rejuvenescimento">Rejuvenescimento</span>
         <h3>Microagulhamento</h3>
         <p>Estimula colágeno natural para firmeza, textura e redução de rugas finas.</p>
       </div>
-      <div class="procedimento-card" data-category="rosto">
-        <div class="card-icon">👁️</div>
-        <h3>Toxina Botulínica nos Olhos</h3>
+      <div class="proc-card reveal" data-category="rosto">
+        <span class="proc-tag tag-rosto">Rosto</span>
+        <h3>Toxina nos Olhos</h3>
         <p>Suaviza rugas ao redor dos olhos (pés de galinha) com naturalidade.</p>
       </div>
-      <div class="procedimento-card" data-category="corpo">
-        <div class="card-icon">💪</div>
+      <div class="proc-card reveal" data-category="corpo">
+        <span class="proc-tag tag-corpo">Corpo</span>
         <h3>Bioestimulador</h3>
         <p>Estimulação de colágeno no corpo para firmeza e redensificação da pele.</p>
       </div>
-      <div class="procedimento-card" data-category="rejuvenescimento">
-        <div class="card-icon">🌟</div>
+      <div class="proc-card reveal" data-category="rejuvenescimento">
+        <span class="proc-tag tag-rejuvenescimento">Rejuvenescimento</span>
         <h3>Radiesse</h3>
         <p>Preenchimento com efeito lifting para áreas que perdem volume e definição.</p>
       </div>
-      <div class="procedimento-card" data-category="rosto">
-        <div class="card-icon">🎨</div>
+      <div class="proc-card reveal" data-category="rosto">
+        <span class="proc-tag tag-rosto">Rosto</span>
         <h3>Design de Sobrancelha</h3>
-        <p>Design personalizado com sustância ou fio a fio para cada rosto.</p>
+        <p>Design personalizado com substância ou fio a fio para cada rosto.</p>
       </div>
-      <div class="procedimento-card" data-category="corpo">
-        <div class="card-icon">🔥</div>
+      <div class="proc-card reveal" data-category="corpo">
+        <span class="proc-tag tag-corpo">Corpo</span>
         <h3>Intralipoterapia</h3>
-        <p>Redução de gordura localizada com injeções liporrredutoras seguras.</p>
+        <p>Redução de gordura localizada com injeções liporredutoras seguras.</p>
       </div>
-      <div class="procedimento-card" data-category="rejuvenescimento">
-        <div class="card-icon">🧬</div>
-        <h3>Plasma Rico em Plaquetas (PRP)</h3>
+      <div class="proc-card reveal" data-category="rejuvenescimento">
+        <span class="proc-tag tag-rejuvenescimento">Rejuvenescimento</span>
+        <h3>PRP — Plasma Rico em Plaquetas</h3>
         <p>Tratamento biológico que potencializa sua própria capacidade de regeneração.</p>
       </div>
-      <div class="procedimento-card" data-category="corpo">
-        <div class="card-icon">💆</div>
+      <div class="proc-card reveal" data-category="corpo">
+        <span class="proc-tag tag-corpo">Corpo</span>
         <h3>Mesoterapia</h3>
         <p>Injeção de vitaminas e ativos na derme para hidratação e luminosidade.</p>
       </div>
-      <div class="procedimento-card" data-category="rosto">
-        <div class="card-icon">🌸</div>
+      <div class="proc-card reveal" data-category="rosto">
+        <span class="proc-tag tag-rosto">Rosto</span>
         <h3>Fios de Ouro</h3>
         <p>Lifting natural com fios que estimulam colágeno e firmam a pele.</p>
       </div>
-      <div class="procedimento-card" data-category="rejuvenescimento">
-        <div class="card-icon">⚡</div>
+      <div class="proc-card reveal" data-category="rejuvenescimento">
+        <span class="proc-tag tag-rejuvenescimento">Rejuvenescimento</span>
         <h3>Microcorrentes</h3>
         <p>Tonificação facial e corporal com tecnologia de microcorrentes biocompatíveis.</p>
       </div>
     </div>
   </section>
 
-  <!-- CTA SECTION -->
-  <section class="cta-section">
-    <div class="cta-content">
-      <h2>Pronta para Começar sua Transformação?</h2>
-      <p>Agende sua consulta inicial gratuita e descubra o procedimento perfeito para você</p>
-      <a href="https://wa.me/5511986532841" target="_blank" class="btn-cta">Agendar Agora via WhatsApp</a>
+  <!-- ── CTA ── -->
+  <section class="cta">
+    <div class="cta-inner reveal">
+      <p class="eyebrow">Dê o primeiro passo</p>
+      <h2>Pronta para sua<br><em>transformação?</em></h2>
+      <p>Agende sua consulta inicial e descubra o procedimento perfeito para você.</p>
+      <a href="https://wa.me/5511986532841" target="_blank" class="btn-cta-wpp">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.507 3.936 1.395 5.612L0 24l6.545-1.371A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.797 9.797 0 01-5.031-1.389l-.36-.215-3.884.814.826-3.777-.235-.387A9.785 9.785 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+        Agendar agora via WhatsApp
+      </a>
     </div>
   </section>
 
-  <!-- TESTIMONIALS SECTION -->
-  <section class="testimonials-section">
-    <h2>O que Nossos Clientes Dizem</h2>
-    <div class="testimonials-grid">
-      <div class="testimonial-card">
-        <div class="stars">⭐⭐⭐⭐⭐</div>
-        <p>"Fran é uma profissional excepcional! Resultado natural e seguro. Recomendo!"</p>
-        <div class="testimonial-author">— Marina Silva</div>
+  <!-- ── DEPOIMENTOS ── -->
+  <section class="testimonials">
+    <div class="section-head dark reveal">
+      <p class="eyebrow">Depoimentos</p>
+      <h2>O que nossas clientes dizem</h2>
+    </div>
+    <div class="test-grid">
+      <div class="test-card reveal">
+        <div class="stars">
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <blockquote>"Fran é uma profissional excepcional! Resultado natural e seguro. Recomendo de olhos fechados!"</blockquote>
+        <cite>— Marina Silva</cite>
       </div>
-      <div class="testimonial-card">
-        <div class="stars">⭐⭐⭐⭐⭐</div>
-        <p>"Melhor decisão que tomei. Sentimento de confiança e bem-estar restaurado!"</p>
-        <div class="testimonial-author">— Juliana Costa</div>
+      <div class="test-card reveal">
+        <div class="stars">
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <blockquote>"Melhor decisão que tomei. Sentimento de confiança e bem-estar completamente restaurado!"</blockquote>
+        <cite>— Juliana Costa</cite>
       </div>
-      <div class="testimonial-card">
-        <div class="stars">⭐⭐⭐⭐⭐</div>
-        <p>"Profissionalismo e dedicação em cada detalhe. Resultado perfeito!"</p>
-        <div class="testimonial-author">— Gabriela Oliveira</div>
+      <div class="test-card reveal">
+        <div class="stars">
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <blockquote>"Profissionalismo e dedicação em cada detalhe. Resultado perfeito e atendimento humanizado!"</blockquote>
+        <cite>— Gabriela Oliveira</cite>
       </div>
     </div>
   </section>
 
-  <!-- CONTATO SECTION -->
-  <section class="contato-section" id="contato">
-    <h2 class="contato-title">Entre em Contato</h2>
-    <div class="contato-content">
+  <!-- ── CONTATO ── -->
+  <section class="contato" id="contato">
+    <div class="section-head light reveal">
+      <p class="eyebrow">Fale Conosco</p>
+      <h2>Entre em contato</h2>
+    </div>
+    <div class="contato-grid reveal">
       <div class="contato-item">
-        <div class="contato-icon">📱</div>
+        <div class="contato-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.69A2 2 0 012.18 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-.53a2 2 0 012.11.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
         <h3>WhatsApp</h3>
         <a href="https://wa.me/5511986532841" target="_blank">(11) 98653-2841</a>
       </div>
       <div class="contato-item">
-        <div class="contato-icon">📍</div>
+        <div class="contato-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
         <h3>Endereço</h3>
-        <a href="https://www.google.com/maps?q=Rua+Nossa+Senhora+da+Lapa,+184,+Sala+11,+São+Paulo,+SP" target="_blank">
-          Rua Nossa Senhora da Lapa, 184, Sala 11 - São Paulo/SP
-        </a>
+        <a href="https://www.google.com/maps?q=Rua+Nossa+Senhora+da+Lapa,+184,+Sala+11,+São+Paulo,+SP" target="_blank">Rua Nossa Senhora da Lapa, 184<br>Sala 11 — São Paulo/SP</a>
       </div>
       <div class="contato-item">
-        <div class="contato-icon">📧</div>
-        <h3>Redes Sociais</h3>
+        <div class="contato-icon-wrap">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </div>
+        <h3>Instagram</h3>
         <a href="https://www.instagram.com/dra_franfreitas/" target="_blank">@dra_franfreitas</a>
       </div>
     </div>
   </section>
 
+  <!-- ── FOOTER ── -->
   <footer>
-    <p>&copy; 2025 Fran Freitas - Biomédica Esteta. Todos os direitos reservados.</p>
+    <img src="img/logo.png" alt="Fran Freitas" class="footer-logo">
+    <p>&copy; 2025 Fran Freitas · Biomédica Esteta. Todos os direitos reservados.</p>
   </footer>
 
-  <div class="social-icons">
-    <a href="https://wa.me/5511986532841" target="_blank" aria-label="WhatsApp" class="social-btn whatsapp">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-      </svg>
+  <!-- ── FLOATING SOCIAL ── -->
+  <div class="socials-float">
+    <a href="https://wa.me/5511986532841" target="_blank" class="social-pill pill-wpp" aria-label="WhatsApp">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" fill="white"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.507 3.936 1.395 5.612L0 24l6.545-1.371A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.797 9.797 0 01-5.031-1.389l-.36-.215-3.884.814.826-3.777-.235-.387A9.785 9.785 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z" fill="white"/></svg>
     </a>
-    <a href="https://www.instagram.com/dra_franfreitas/" target="_blank" aria-label="Instagram" class="social-btn instagram">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.057-1.645.069-4.849.069-3.204 0-3.584-.012-4.849-.069-3.259-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163C8.756 0 8.331.012 7.052.07 2.696.278.278 2.579.07 7.052.012 8.331 0 8.756 0 12c0 3.244.011 3.668.07 4.948.207 4.474 2.557 6.875 4.974 7.088 1.278.058 1.704.07 4.956.07 3.251 0 3.678-.012 4.956-.07 2.423-.212 4.763-2.612 4.972-7.088.057-1.28.069-1.704.069-4.948 0-3.243-.011-3.668-.069-4.948C21.722 2.558 19.32.162 14.978.07 13.679.012 13.251 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a4 4 0 110-8 4 4 0 010 8zm4.965-10.322a1.44 1.44 0 11.806-2.806 1.44 1.44 0 01-.806 2.806z"/>
-      </svg>
+    <a href="https://www.instagram.com/dra_franfreitas/" target="_blank" class="social-pill pill-insta" aria-label="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.057-1.645.069-4.849.069-3.204 0-3.584-.012-4.849-.069-3.259-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163C8.756 0 8.331.012 7.052.07 2.696.278.278 2.579.07 7.052.012 8.331 0 8.756 0 12c0 3.244.011 3.668.07 4.948.207 4.474 2.557 6.875 4.974 7.088 1.278.058 1.704.07 4.956.07 3.251 0 3.678-.012 4.956-.07 2.423-.212 4.763-2.612 4.972-7.088.057-1.28.069-1.704.069-4.948 0-3.243-.011-3.668-.069-4.948C21.722 2.558 19.32.162 14.978.07 13.679.012 13.251 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a4 4 0 110-8 4 4 0 010 8zm4.965-10.322a1.44 1.44 0 11.806-2.806 1.44 1.44 0 01-.806 2.806z"/></svg>
     </a>
   </div>
 
-  <script src="js/main.js"></script>
+  <!-- ── SCRIPTS ── -->
   <script>
-    // Animação de números (contador)
-    function animateCounter(element) {
-      const target = parseInt(element.getAttribute('data-target'));
-      const duration = 2000;
-      const start = Date.now();
-      
-      function update() {
-        const elapsed = Date.now() - start;
-        const progress = Math.min(elapsed / duration, 1);
-        const current = Math.floor(target * progress);
-        element.textContent = current;
-        
-        if (progress < 1) requestAnimationFrame(update);
-        else element.textContent = target;
-      }
-      
-      update();
-    }
-
-    // Trigger contador quando seção fica visível
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
-          entry.target.classList.add('counted');
-          animateCounter(entry.target);
-        }
-      });
+    /* Navbar scroll */
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
     });
 
-    document.querySelectorAll('.stat-number').forEach(el => observer.observe(el));
+    /* Hero bg smooth scale */
+    const heroBg = document.getElementById('heroBg');
+    setTimeout(() => heroBg.classList.add('loaded'), 100);
 
-    // Filtro de procedimentos
+    /* Mobile menu */
+    function toggleMenu() {
+      document.getElementById('mobileMenu').classList.toggle('open');
+    }
+
+    /* Reveal on scroll */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 60);
+          revealObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    /* Counter animation */
+    const targets = [500, 10, 20, 100];
+    const counterObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        counterObs.unobserve(entry.target);
+        targets.forEach((target, i) => {
+          const el = document.getElementById('c' + i);
+          if (!el) return;
+          const dur = 1800;
+          const start = Date.now();
+          (function tick() {
+            const p = Math.min((Date.now() - start) / dur, 1);
+            const ease = 1 - Math.pow(1 - p, 3);
+            el.textContent = Math.floor(ease * target);
+            if (p < 1) requestAnimationFrame(tick);
+            else el.textContent = target;
+          })();
+        });
+      });
+    }, { threshold: 0.4 });
+
+    const statsSection = document.querySelector('.stats');
+    if (statsSection) counterObs.observe(statsSection);
+
+    /* Procedure filter */
     document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        const filter = this.getAttribute('data-filter');
+      btn.addEventListener('click', function () {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         this.classList.add('active');
-        
-        document.querySelectorAll('.procedimento-card').forEach(card => {
-          if (filter === 'all' || card.getAttribute('data-category') === filter) {
+        const filter = this.dataset.filter;
+        document.querySelectorAll('.proc-card').forEach(card => {
+          const show = filter === 'all' || card.dataset.category === filter;
+          card.style.transition = 'opacity .3s, transform .3s';
+          if (show) {
             card.style.display = 'block';
-            setTimeout(() => card.classList.add('show'), 10);
+            requestAnimationFrame(() => { card.style.opacity = '1'; card.style.transform = ''; });
           } else {
-            card.classList.remove('show');
-            setTimeout(() => card.style.display = 'none', 300);
+            card.style.opacity = '0';
+            card.style.transform = 'scale(.95)';
+            setTimeout(() => { card.style.display = 'none'; }, 300);
           }
         });
       });
